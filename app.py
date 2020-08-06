@@ -15,7 +15,7 @@ from dash.dependencies import Input, Output, State
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash('PoliceData', external_stylesheets=external_stylesheets)
-
+server = app.server
 
 client = pyg.authorize(service_account_env_var = 'GOOGLE_SHEETS_CREDS_JSON')
 
