@@ -51,6 +51,14 @@ app.layout = html.Div([
             id="modal",
 			is_open=True,
         ),
+	html.A(
+		html.Img(
+			src='https://jointhegram.org/wp-content/uploads/2018/02/cropped-GRAM_1c_web_long_tag.jpg', 
+			height=90,
+			style={'display': 'block', 'margin-left': 'auto', 'margin-right': 'auto',}
+		), href='https://jointhegram.org'
+	),
+	html.Br(),
     html.H2('Saint Louis Metropolitan Police Department (SLMPD)'),
 	html.H5('Search for/select an officer to see misconduct reports'),
 	html.Datalist(id='officers', children = [html.Option(value=i) for i in officers]),
