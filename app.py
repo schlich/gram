@@ -12,7 +12,7 @@ from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 
 
-external_stylesheets = [dbc.themes.BOOTSTRAP]
+external_stylesheets = [dbc.themes.JOURNAL]
 
 app = dash.Dash('PoliceData', external_stylesheets=external_stylesheets)
 server = app.server
@@ -24,8 +24,14 @@ complaints = client.open("cleaned_police_data").worksheet('title','complaints')
 rawdata = complaints.get_all_values()
 headers = rawdata.pop(0)
 data = pd.DataFrame(rawdata, columns=headers)
-
+# consolidate_race_map = {'White':'White', 'Black':'Black', ''}
 race_counts = data['Race of Complainant'].value_counts()
+race_counts = race_counts.drop(' ').drop('')
+bosnians = race_counts.loc['Bosnian']
+asians = race_counts.loc['Asian']
+hispanics = race_counts.loc['Hispanic']
+race_counts['Other'] += bosnians + asians + hispanics
+race_counts.drop(['Bosnian', 'Asian', 'Hispanic'], inplace=True)
 officers = data['Officer Name'].unique()
 display_data = data[['Officer Name', 'DSN #', 'Rank','Assignment','Date of Incident','Location of Incident', 'Nature of Complaint',"Complainant's Statement",'Age',"Race of Complainant","Complainant Gender"]]
 column_names = ['Date of Incident','Nature of Complaint','Age','Race of Complainant','Complainant Gender']
@@ -46,10 +52,10 @@ app.layout = html.Div([
 			is_open=True,
         ),
     html.H2('Saint Louis Metropolitan Police Department (SLMPD)'),
-	html.H5('Search for/select an officer'),
+	html.H5('Search for/select an officer to see misconduct reports'),
 	html.Datalist(id='officers', children = [html.Option(value=i) for i in officers]),
 	dcc.Input(id='officer_input', list='officers'),
-	html.Button('Search',id='submit'),
+	dbc.Button('Search',id='submit'),
 	html.Div([
 		html.Div([
 			html.H3('Officer Name', id='officer_name'),
@@ -73,16 +79,24 @@ app.layout = html.Div([
 			html.P("Search for an officer and select a row to view the complainant's statement",id='statement')
 		])
 	], id='data_html', style= {'display': 'none'}),
-	# html.H3('Citizen Complaint Summary Statistics-'),
-	# dcc.Graph(
-	# 	figure=go.Figure(
-	# 		data=go.Pie(
-	# 			labels=race_counts.index.tolist(),
-	# 			values=race_counts.values.tolist(),
-	# 			textinfo='label+value'
-	# 		)
-	# 	)
-	# )
+	html.Hr(),
+	html.H3('Citizen Employee Misconduct Report Summary Statistics-'),
+	html.P('Tip: Click on a legend entry to add/remove groups'),
+	dbc.Col([
+		html.H4('Race of Complainant'),
+		dcc.Graph(
+			figure=go.Figure(
+				data=go.Pie(
+					labels=race_counts.index.tolist(),
+					values=race_counts.values.tolist(),
+					textinfo='label+value',
+				),
+				layout_margin_t=10,
+			)
+		)
+	], width=4 
+)
+	
 
 ], className='container')
 
