@@ -45,7 +45,7 @@ app.layout = html.Div([
             id="modal",
 			is_open=True,
         ),
-    html.H2('St Louis Police Complaints'),
+    html.H2('Saint Louis Metropolitan Police Department (SLMPD)'),
 	html.H5('Search for/select an officer'),
 	html.Datalist(id='officers', children = [html.Option(value=i) for i in officers]),
 	dcc.Input(id='officer_input', list='officers'),
@@ -84,7 +84,7 @@ app.layout = html.Div([
 	# 	)
 	# )
 
-])
+], className='container')
 
 @app.callback(
 	[Output('complaints', 'data'),
