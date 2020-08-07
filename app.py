@@ -1,6 +1,7 @@
 import os
 import dash
 import json
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
@@ -11,7 +12,7 @@ from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash('PoliceData', external_stylesheets=external_stylesheets)
 server = app.server
@@ -30,6 +31,20 @@ display_data = data[['Officer Name', 'DSN #', 'Rank','Assignment','Date of Incid
 column_names = ['Date of Incident','Nature of Complaint','Age','Race of Complainant','Complainant Gender']
 
 app.layout = html.Div([
+	dbc.Modal(
+            [
+                dbc.ModalHeader("Welcome!"),
+                dbc.ModalBody(
+					children="The GRAM Policing project is a tool to help hold police accountable to the public they serve.\nThis database is part of an ongoing and evolving grassroots project to make records of police interactions available and useful to the public.\n",
+					id='disclaimer_txt'),
+                dbc.ModalFooter([
+					dbc.Button("View Data Disclaimer", id="disclaimer_btn", className="ml-auto"),
+                    dbc.Button("Close", id="close", className="ml-auto")
+				]),
+            ],
+            id="modal",
+			is_open=True,
+        ),
     html.H2('St Louis Police Complaints'),
 	html.H5('Search for/select an officer'),
 	html.Datalist(id='officers', children = [html.Option(value=i) for i in officers]),
@@ -105,6 +120,22 @@ def get_statement(rows, derived_virtual_selected_rows):
 		statement = data.loc[derived_virtual_selected_rows[0],"Complainant's Statement"]
 
 	return statement
+
+@app.callback(
+    Output("disclaimer_txt", "children"),
+    [Input("disclaimer_btn", "n_clicks")],
+)
+def show_disclaimer(n_clicks):
+	if n_clicks and n_clicks>0: 
+		return "The information provided on the GRAM Accountability Project with respect to Police Data comes primarily from the Saint Louis Metropolitan Police Department in response to Sunshine requests.  At this time, the search engine allows the user to search all available Employee Misconduct Reports (EMRs) from 2010 to 2019. The records published have been deemed to be open to the public by the SLMPD and Sunshine Law.  The SLMPD is not required by the Missouri Sunshine Law to disclose all EMR Allegations.  That means that only a small fraction of the complaints filed as EMRs are open and obtainable by the Sunshine Law.  The SLMPD does not provide the Internal Affairs or COB rulings on individual complaints; thus the public is left only with the allegations of misconduct.  GRAM cannot guarantee the accuracy of the data provided.*  However, the data was faithfully copied from open record reports obtained directly from the SLMPD.  We are committed to transparency in the publication of the data and welcome critiques. *Identifying information of civilian complainants has been removed from the search engine database."
+	return "The GRAM Policing project is a tool to help hold police accountable to the public they serve.\nThis database is part of an ongoing and evolving grassroots project to make records of police interactions available and useful to the public.\n"
+
+@app.callback(
+    Output("modal", "is_open"),
+    [Input("close", "n_clicks")],
+)
+def close_disclaimer(n_clicks):
+	return False if n_clicks and n_clicks > 0 else True
 
 if __name__ == '__main__':
     app.run_server(debug=True)
