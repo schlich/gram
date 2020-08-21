@@ -45,7 +45,11 @@ app.layout = html.Div([
 					id='disclaimer_txt'),
                 dbc.ModalFooter([
 					dbc.Button("View Data Disclaimer", id="disclaimer_btn", className="ml-auto"),
-                    dbc.Button("Close", id="close", className="ml-auto")
+                    html.Div(
+						dbc.Button("Close", id="close", className="ml-auto"),
+						id='close-div',
+						style={'display':'none'},
+					)
 				]),
             ],
             id="modal",
@@ -60,6 +64,7 @@ app.layout = html.Div([
 	),
 	html.Br(),
     html.H2('Saint Louis Metropolitan Police Department (SLMPD)'),
+	html.H3('Employee Misconduct Reports (Allegations)'),
 	html.H5('Search for/select an officer to see misconduct reports'),
 	html.Datalist(id='officers', children = [html.Option(value=i) for i in officers]),
 	dcc.Input(id='officer_input', list='officers'),
@@ -89,7 +94,7 @@ app.layout = html.Div([
 	], id='data_html', style= {'display': 'none'}),
 	html.Hr(),
 	html.H3('Citizen Employee Misconduct Report Summary Statistics-'),
-	html.P('Tip: Click on a legend entry to add/remove groups'),
+	# html.P('Tip: Click on a legend entry to add/remove groups'),
 	dbc.Col([
 		html.H4('Race of Complainant'),
 		dcc.Graph(
@@ -102,8 +107,14 @@ app.layout = html.Div([
 				layout_margin_t=10,
 			)
 		)
-	], width=4 
-)
+	], width=4),
+	html.Div(
+		html.Iframe(
+			src='https://public.tableau.com/views/PoliceDistrictMapping/Dashboard1?:showVizHome=no&:embed=true',
+			height="800",
+			width="100%",
+		),
+	),
 	
 
 ], className='container')
@@ -144,13 +155,15 @@ def get_statement(rows, derived_virtual_selected_rows):
 	return statement
 
 @app.callback(
-    Output("disclaimer_txt", "children"),
+    [Output("disclaimer_txt", "children"),
+	 Output("close-div", "style")],
     [Input("disclaimer_btn", "n_clicks")],
 )
 def show_disclaimer(n_clicks):
 	if n_clicks and n_clicks>0: 
-		return "The information provided on the GRAM Accountability Project with respect to Police Data comes primarily from the Saint Louis Metropolitan Police Department in response to Sunshine requests.  At this time, the search engine allows the user to search all available Employee Misconduct Reports (EMRs) from 2010 to 2019. The records published have been deemed to be open to the public by the SLMPD and Sunshine Law.  The SLMPD is not required by the Missouri Sunshine Law to disclose all EMR Allegations.  That means that only a small fraction of the complaints filed as EMRs are open and obtainable by the Sunshine Law.  The SLMPD does not provide the Internal Affairs or COB rulings on individual complaints; thus the public is left only with the allegations of misconduct.  GRAM cannot guarantee the accuracy of the data provided.*  However, the data was faithfully copied from open record reports obtained directly from the SLMPD.  We are committed to transparency in the publication of the data and welcome critiques. *Identifying information of civilian complainants has been removed from the search engine database."
-	return "The GRAM Policing project is a tool to help hold police accountable to the public they serve.\nThis database is part of an ongoing and evolving grassroots project to make records of police interactions available and useful to the public.\n"
+		return "The information provided on the GRAM Accountability Project with respect to Police Data comes primarily from the Saint Louis Metropolitan Police Department in response to Sunshine requests.  At this time, the search engine allows the user to search all available Employee Misconduct Reports (EMRs) from 2010 to 2019. The records published have been deemed to be open to the public by the SLMPD and Sunshine Law.  The SLMPD is not required by the Missouri Sunshine Law to disclose all EMR Allegations.  That means that only a small fraction of the complaints filed as EMRs are open and obtainable by the Sunshine Law.  The SLMPD does not provide the Internal Affairs or COB rulings on individual complaints; thus the public is left only with the allegations of misconduct.  GRAM cannot guarantee the accuracy of the data provided.*  However, the data was faithfully copied from open record reports obtained directly from the SLMPD.  We are committed to transparency in the publication of the data and welcome critiques. *Identifying information of civilian complainants has been removed from the search engine database.", {'display':'block'}
+	
+	return "The GRAM Policing project is a tool to help hold police accountable to the public they serve.\nThis database is part of an ongoing and evolving grassroots project to make records of police interactions available and useful to the public.\n", {'display':'none'}
 
 @app.callback(
     Output("modal", "is_open"),
