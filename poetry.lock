@@ -289,7 +289,7 @@ description = "Bootstrap themed components for use in Plotly Dash"
 name = "dash-bootstrap-components"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
-version = "0.10.6rc1"
+version = "0.10.7"
 
 [package.dependencies]
 dash = ">=1.9.0"
@@ -1593,7 +1593,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "50d0d5fd310d901e3c40c67aebe63ca3b3a2f773b5fc73f82c6b47506e1c1cf6"
+content-hash = "7b553b3ba1cffa05fb29046849c1128100565dd6672e432f977386be0b37f4e2"
 python-versions = "3.8.6"
 
 [metadata.files]
@@ -1767,8 +1767,8 @@ dash = [
     {file = "dash-1.16.3.tar.gz", hash = "sha256:596b20d5fdbf1dbcce2a77dc226d85a83e26aa0656c0a7a41e53cd20cc5f7a5e"},
 ]
 dash-bootstrap-components = [
-    {file = "dash-bootstrap-components-0.10.6rc1.tar.gz", hash = "sha256:2225879267de0bdeac91c772551edc8bf96e538a7f0eb63304fd378d1e41debb"},
-    {file = "dash_bootstrap_components-0.10.6rc1-py2.py3-none-any.whl", hash = "sha256:740e30686a8da492f3885367717d4594711f8b1be363319d87b0651d5ebfc70e"},
+    {file = "dash-bootstrap-components-0.10.7.tar.gz", hash = "sha256:19c8c7d0d390badf72ef901da46e8c3270e204e8f8e9ab7997de29aeb39ad7b9"},
+    {file = "dash_bootstrap_components-0.10.7-py2.py3-none-any.whl", hash = "sha256:4ad4898450d9a3baa4b47d9ab00f2a20c56ef58734828b72ccf9a690628b0672"},
 ]
 dash-core-components = [
     {file = "dash_core_components-1.12.1.tar.gz", hash = "sha256:27f2ac612f5574dcd0d645f9302ceca5975bbdac6791865692e3ac51d0aec7f4"},
