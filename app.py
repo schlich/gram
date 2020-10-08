@@ -55,10 +55,16 @@ display_data = data[
         "Date of Incident",
         "Location of Incident",
         "Nature of Complaint",
-        "Complainant's Statement",
+        "Redacted Complainant's Statement",
         "Age",
         "Race of Complainant",
         "Complainant Gender",
+        "Rank",
+        "Assignment",
+        "District",
+        "On-Duty",
+        "District",
+        "City",
     ]
 ]
 column_names = [
@@ -128,7 +134,9 @@ app.layout = html.Div(
                 html.Div(
                     [
                         html.H4("EMR Complaint Summary"),
-                        html.P("Select a row to view the complainant's statement."),
+                        html.P(
+                            "Select incident date for more information on the allegation:"
+                        ),
                         dash_table.DataTable(
                             id="complaints",
                             columns=[
@@ -140,10 +148,8 @@ app.layout = html.Div(
                             row_selectable="single",
                             style_data={"whiteSpace": "normal", "height": "auto"},
                         ),
-                        html.H3("Complainant's Statement:"),
-                        html.P(
-                            "Search for an officer and select a row to view the complainant's statement",
-                            id="statement",
+                        html.Div(
+                            id="incident-info",
                         ),
                     ]
                 ),
@@ -156,21 +162,41 @@ app.layout = html.Div(
             [
                 html.H3("Summary Statistics from EMRs: 2010-2019"),
                 # html.P('Tip: Click on a legend entry to add/remove groups'),
-                dbc.Col(
+                dbc.Row(
                     [
-                        html.H4("Race of Complainant"),
-                        dcc.Graph(
-                            figure=go.Figure(
-                                data=go.Pie(
-                                    labels=race_counts.index.tolist(),
-                                    values=race_counts.values.tolist(),
-                                    textinfo="label+value",
+                        dbc.Col(
+                            [
+                                html.H4("Race of Complainant"),
+                                dcc.Graph(
+                                    figure=go.Figure(
+                                        data=go.Pie(
+                                            labels=race_counts.index.tolist(),
+                                            values=race_counts.values.tolist(),
+                                            textinfo="label+value",
+                                        ),
+                                        layout_margin_t=10,
+                                    )
                                 ),
-                                layout_margin_t=10,
-                            )
+                            ],
                         ),
-                    ],
-                    width=4,
+                        dbc.Col(
+                            [
+                                html.H4("Gender of Complainant"),
+                                dcc.Graph(
+                                    figure=go.Figure(
+                                        data=go.Pie(
+                                            labels=complaints["Complainant Gender"]
+                                            .value_counts()
+                                            .index.tolist(),
+                                            values=race_counts.values.tolist(),
+                                            textinfo="label+value",
+                                        ),
+                                        layout_margin_t=10,
+                                    )
+                                ),
+                            ],
+                        ),
+                    ]
                 ),
             ],
             id="charts",
@@ -210,8 +236,10 @@ app.layout = html.Div(
 )
 def update_data(n_clicks, officer):
     if n_clicks:
-        complaints = display_data[display_data["Officer Name"] == officer].to_dict(
-            "records"
+        complaints = (
+            display_data[display_data["Officer Name"] == officer]
+            .sort_values("Date of Incident")
+            .to_dict("records")
         )
         firstrow = complaints[0]
         dsn = firstrow["DSN"]
@@ -237,21 +265,56 @@ def update_data(n_clicks, officer):
 
 
 @app.callback(
-    dash.dependencies.Output("statement", "children"),
+    Output("incident-info", "children"),
     [
-        dash.dependencies.Input("complaints", "derived_virtual_data"),
-        dash.dependencies.Input("complaints", "derived_virtual_selected_rows"),
+        Input("complaints", "derived_virtual_data"),
+        Input("complaints", "derived_virtual_selected_rows"),
     ],
 )
 def get_statement(rows, derived_virtual_selected_rows):
     if not derived_virtual_selected_rows:
-        statement = "Select a row to view the complainant's statement"
+        incident_info = "Select a row to view the complainant's statement"
     else:
         data = pd.DataFrame(rows)
         statement = data.loc[
-            derived_virtual_selected_rows[0], "Complainant's Statement"
+            derived_virtual_selected_rows[0], "Redacted Complainant's Statement"
         ]
-    return statement
+        incident_info = [
+            # html.P(
+            #     html.B("Nature of Complaint: "),
+            #     data.loc[derived_virtual_selected_rows[0], "Nature of Complaint"],
+            # ),
+            html.H5("Complainant's Statement:"),
+            html.P(statement),
+            html.P(statement),
+            html.H5("Officer information at time of incident:"),
+            html.P(
+                [html.B("Rank: "), data.loc[derived_virtual_selected_rows[0], "Rank"]]
+            ),
+            html.P(
+                [
+                    html.B("Assignment: "),
+                    data.loc[derived_virtual_selected_rows[0], "Assignment"],
+                ]
+            ),
+            html.P(
+                [
+                    html.B("On-Duty: "),
+                    data.loc[derived_virtual_selected_rows[0], "On-Duty"],
+                ]
+            ),
+            html.H5("Location of Incident"),
+            html.P(
+                [
+                    html.B("District: "),
+                    data.loc[derived_virtual_selected_rows[0], "District"],
+                ]
+            ),
+            html.P(
+                [html.B("City: "), data.loc[derived_virtual_selected_rows[0], "City"]]
+            ),
+        ]
+    return incident_info
 
 
 @app.callback(
