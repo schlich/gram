@@ -102,6 +102,7 @@ app.layout = html.Div(
             id="modal",
             is_open=True,
         ),
+        html.Br(),
         html.A(
             html.Img(
                 src="https://jointhegram.org/wp-content/uploads/2018/02/cropped-GRAM_1c_web_long_tag.jpg",
@@ -127,12 +128,15 @@ app.layout = html.Div(
         dbc.Button("Search", id="submit"),
         html.Div(
             [
+                html.Br(),
+                html.Br(),
                 html.H3("Officer Name", id="officer_name"),
                 html.Div(
                     id="officer-info",
                 ),
                 html.Div(
                     [
+                        html.Br(),
                         html.H4("EMR Complaint Summary"),
                         html.P(
                             "Select incident date for more information on the allegation:"
@@ -153,10 +157,15 @@ app.layout = html.Div(
                         ),
                     ]
                 ),
+                html.Br(),
+                html.Br(),
+                # dbc.Button("Back to Home", id="back-button"),
             ],
             id="data_html",
             style={"display": "none"},
         ),
+        html.Br(),
+        html.Br(),
         html.Hr(),
         html.Div(
             [
@@ -250,7 +259,7 @@ app.layout = html.Div(
                         dbc.Col(
                             [
                                 html.H4(
-                                    "Click on the image below to view our interactive map of SLMPD data and misconduct data:"
+                                    "Click on the image below to view our interactive map of SLMPD and misconduct data:"
                                 ),
                                 html.A(
                                     html.Img(
@@ -338,7 +347,7 @@ def update_data(n_clicks, officer):
 )
 def get_statement(rows, derived_virtual_selected_rows):
     if not derived_virtual_selected_rows:
-        incident_info = "Select a row to view the complainant's statement"
+        incident_info = "Select a row to view the complainant's statement and more info about the incident"
     else:
         data = pd.DataFrame(rows)
         statement = data.loc[
@@ -383,7 +392,11 @@ def get_statement(rows, derived_virtual_selected_rows):
 
 
 @app.callback(
-    [Output("disclaimer_txt", "children"), Output("close-div", "style")],
+    [
+        Output("disclaimer_txt", "children"),
+        Output("close-div", "style"),
+        Output("disclaimer_btn", "style"),
+    ],
     [Input("disclaimer_btn", "n_clicks")],
 )
 def show_disclaimer(n_clicks):
@@ -406,10 +419,11 @@ def show_disclaimer(n_clicks):
             + "engine database."
         )
 
-        return text, {"display": "block"}
+        return text, {"display": "block"}, {"display": "none"}
     return (
         "The GRAM Policing project is a tool to help hold police accountable to the public they serve.\nThis database is part of an ongoing and evolving grassroots project to make records of police interactions available and useful to the public.\n",
         {"display": "none"},
+        {"display": "block"},
     )
 
 
