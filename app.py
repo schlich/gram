@@ -175,6 +175,7 @@ app.layout = html.Div(
                                             textinfo="label+value",
                                         ),
                                         layout_margin_t=10,
+                                        layout_showlegend=False,
                                     )
                                 ),
                             ],
@@ -188,36 +189,100 @@ app.layout = html.Div(
                                             labels=complaints["Complainant Gender"]
                                             .value_counts()
                                             .index.tolist(),
-                                            values=race_counts.values.tolist(),
+                                            values=complaints["Complainant Gender"]
+                                            .value_counts()
+                                            .values.tolist(),
                                             textinfo="label+value",
                                         ),
                                         layout_margin_t=10,
+                                        layout_showlegend=False,
                                     )
                                 ),
                             ],
+                        ),
+                        dbc.Col(
+                            [
+                                html.H4("Police District of Incident Location"),
+                                html.P("(See map below)"),
+                                dcc.Graph(
+                                    figure=go.Figure(
+                                        data=go.Pie(
+                                            labels=complaints["District"]
+                                            .value_counts()
+                                            .index.tolist(),
+                                            values=complaints["District"]
+                                            .value_counts()
+                                            .values.tolist(),
+                                            textinfo="label+value",
+                                            textposition="inside",
+                                        ),
+                                        layout_margin_t=10,
+                                        layout_showlegend=False,
+                                    )
+                                ),
+                            ]
+                        ),
+                    ]
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            [
+                                html.H4("Nature of Complaint"),
+                                dcc.Graph(
+                                    figure=go.Figure(
+                                        data=go.Pie(
+                                            labels=complaints["Nature of Complaint"]
+                                            .value_counts()
+                                            .index.tolist(),
+                                            values=complaints["Nature of Complaint"]
+                                            .value_counts()
+                                            .values.tolist(),
+                                            textinfo="label+value",
+                                            textposition="inside",
+                                        ),
+                                        layout_margin_t=10,
+                                        layout_showlegend=False,
+                                    )
+                                ),
+                            ],
+                        ),
+                        dbc.Col(
+                            [
+                                html.H4(
+                                    "Click on the image below to view our interactive map of SLMPD data and misconduct data:"
+                                ),
+                                html.A(
+                                    html.Img(
+                                        src="assets/stl_police_districts_map.PNG",
+                                        width="80%",
+                                    ),
+                                    href="https://public.tableau.com/profile/andrew.arkills#!/vizhome/PoliceDistrictMapping/Dashboard1",
+                                ),
+                            ]
                         ),
                     ]
                 ),
             ],
             id="charts",
         ),
-        dbc.Container(
-            [
-                # html.Iframe(
-                # 	src='https://public.tableau.com/views/PoliceDistrictMapping/Dashboard1?:showVizHome=no&:embed=true',
-                # 	height="800",
-                # 	width="100%",
-                # ),
-                html.H4(
-                    "Click on the image below to view our interactive map of SLMPD data and misconduct data:"
-                ),
-                html.A(
-                    html.Img(src="assets/stl_police_districts_map.PNG", width="300"),
-                    href="https://public.tableau.com/profile/andrew.arkills#!/vizhome/PoliceDistrictMapping/Dashboard1",
-                ),
-            ],
-            style={"width": "50%"},
-        ),
+        # dbc.Container(
+        #     [
+        #         # html.Iframe(
+        #         # 	src='https://public.tableau.com/views/PoliceDistrictMapping/Dashboard1?:showVizHome=no&:embed=true',
+        #         # 	height="800",
+        #         # 	width="100%",
+        #         # ),
+        #         html.H4(
+        #             "Click on the image below to view our interactive map of SLMPD data and misconduct data:"
+        #         ),
+        #         html.A(
+        #             html.Img(src="assets/stl_police_districts_map.PNG"),
+        #             href="https://public.tableau.com/profile/andrew.arkills#!/vizhome/PoliceDistrictMapping/Dashboard1",
+        #         ),
+        #     ],
+        #     style={"width": "50%"},
+        # ),
     ],
     className="container",
 )
