@@ -13,10 +13,10 @@ pygsheets = "^2.0.3"
 gunicorn = "^20.0.4"
 dash = "^1.14.0"
 dash-bootstrap-components = "0.10.6rc1"
-python-dotenv = "^0.14.0"
 jupyterlab = "^2.2.8"
 
 [tool.poetry.dev-dependencies]
+python-dotenv = "^0.14.0"
 pylint = "^2.5.3"
 black = {version = "^20.8b1", allow-prereleases = true}
 selenium = "^3.141.0"
