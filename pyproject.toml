@@ -6,7 +6,7 @@ authors = ["Tyler Schlichenmeyer <tyler.schlichenmeyer@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "3.8.3"
+python = "3.8.6"
 whitenoise = "^5.1.0"
 pandas = "^1.0.5"
 pygsheets = "^2.0.3"
