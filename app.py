@@ -14,7 +14,7 @@ from dash.dependencies import Input, Output, State
 
 
 external_stylesheets = [dbc.themes.JOURNAL]
-# load_dotenv()
+load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
 server = app.server
