@@ -6,3 +6,6 @@
 notebooks/
 data/
 .vscode/
+
+chromedriver.exe
+geckodriver.log

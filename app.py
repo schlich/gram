@@ -8,11 +8,13 @@ import dash_table
 import pandas as pd
 import pygsheets as pyg
 import plotly.graph_objs as go
+from dotenv import load_dotenv
 from dash.exceptions import PreventUpdate
 from dash.dependencies import Input, Output, State
 
 
 external_stylesheets = [dbc.themes.JOURNAL]
+load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
 server = app.server
@@ -119,13 +121,9 @@ app.layout = html.Div(
         dbc.Button("Search", id="submit"),
         html.Div(
             [
+                html.H3("Officer Name", id="officer_name"),
                 html.Div(
-                    [
-                        html.H3("Officer Name", id="officer_name"),
-                        html.H5("DSN: ", id="dsn"),
-                        html.P("Rank: ", id="rank"),
-                        html.P("Assignment: ", id="assignment"),
-                    ]
+                    id="officer-info",
                 ),
                 html.Div(
                     [
@@ -204,10 +202,8 @@ app.layout = html.Div(
         Output("complaints", "data"),
         Output("data_html", "style"),
         Output("officer_name", "children"),
-        Output("dsn", "children"),
-        Output("rank", "children"),
-        Output("assignment", "children"),
         Output("charts", "style"),
+        Output("officer-info", "children"),
     ],
     [Input("submit", "n_clicks")],
     [State("officer_input", "value")],
@@ -218,18 +214,23 @@ def update_data(n_clicks, officer):
             "records"
         )
         firstrow = complaints[0]
-        print(firstrow.keys())
-        dsn = "DSN: " + firstrow["DSN"]
-        rank = "Rank: " + firstrow["Rank_2020"]
-        assignment = "Assignment: " + firstrow["2020 Assignment"]
+        dsn = firstrow["DSN"]
+        rank = firstrow["Rank_2020"]
+        assignment = firstrow["2020 Assignment"]
+        if not rank:
+            officer_info = "No longer employed with the SLMPD"
+        else:
+            officer_info = [
+                html.H5(f"DSN: {dsn}"),
+                html.P(f"Rank: {rank}"),
+                html.P(f"Assignment: {assignment}"),
+            ]
         return (
             complaints,
             {"display": "block"},
             officer,
-            dsn,
-            rank,
-            assignment,
             {"display": "none"},
+            officer_info,
         )
     else:
         raise PreventUpdate
