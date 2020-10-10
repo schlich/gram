@@ -1,6 +1,4 @@
-import os
 import dash
-import json
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -18,7 +16,7 @@ external_stylesheets = [dbc.themes.JOURNAL]
 load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
-Talisman(app)
+Talisman(app, content_security_policy=None)
 server = app.server
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
