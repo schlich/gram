@@ -343,7 +343,7 @@ version = "0.1.5"
 Flask = "*"
 
 [[package]]
-category = "main"
+category = "dev"
 description = "HTTP security headers for Flask."
 name = "flask-talisman"
 optional = false
@@ -1109,7 +1109,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["pytest (>=3.5,<3.7.3 || >3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pytest-cov", "jaraco.test (>=3.2.0)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
 
 [metadata]
-content-hash = "2565176a022369d9db66e055f1db722f97f52c220addca4e8fa0a70d51039168"
+content-hash = "b2cd29b8b26aa50d5574ca66049e31f1d97d24b3e3cbd2cfd0a077824be6be04"
 python-versions = "^3.6.1"
 
 [metadata.files]
