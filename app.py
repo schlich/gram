@@ -16,8 +16,8 @@ external_stylesheets = [dbc.themes.JOURNAL]
 load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
-if "DYNO" in os.environ:
-    sslify = SSLify(app)
+# if "DYNO" in os.environ:
+#     sslify = SSLify(app)
 server = app.server
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
