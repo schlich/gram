@@ -1,3 +1,4 @@
+import os
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -7,8 +8,7 @@ import pandas as pd
 import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
-from flask_talisman import Talisman
-from dash.exceptions import PreventUpdate
+from flask_sslify import SSLify
 from dash.dependencies import Input, Output, State
 
 
@@ -16,7 +16,8 @@ external_stylesheets = [dbc.themes.JOURNAL]
 load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
-Talisman(app, content_security_policy=None)
+if "DYNO" in os.environ:
+    sslify = SSLify(app)
 server = app.server
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")

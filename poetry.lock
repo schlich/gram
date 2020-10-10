@@ -315,6 +315,17 @@ flask = "*"
 
 [[package]]
 category = "main"
+description = "Force SSL on your Flask app."
+name = "flask-sslify"
+optional = false
+python-versions = "*"
+version = "0.1.5"
+
+[package.dependencies]
+Flask = "*"
+
+[[package]]
+category = "main"
 description = "HTTP security headers for Flask."
 name = "flask-talisman"
 optional = false
@@ -1038,7 +1049,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "be23bb20841ad0ae7d4929ae3aa9fd52d60900ae8a1eb6ef5e681f3b44b96a52"
+content-hash = "edef400b0ac297a1e33550f3030bb24da655858899727497a65b2660dffd1eb8"
 python-versions = "3.8.3"
 
 [metadata.files]
@@ -1204,6 +1215,9 @@ flask = [
 ]
 flask-compress = [
     {file = "Flask-Compress-1.6.0.tar.gz", hash = "sha256:2d551211eca86e684c170491c857692b6c4c94a147ab6b41995decac8ee63567"},
+]
+flask-sslify = [
+    {file = "Flask-SSLify-0.1.5.tar.gz", hash = "sha256:d33e1d3c09cd95154176aa8a7319418e52129fc482dd56d8a8ad7c24500d543e"},
 ]
 flask-talisman = [
     {file = "flask-talisman-0.7.0.tar.gz", hash = "sha256:468131464a249274ed226efc21b372518f442487e58918ccab8357eaa638fd1f"},
