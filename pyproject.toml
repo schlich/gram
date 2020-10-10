@@ -14,6 +14,7 @@ dash = "^1.14.0"
 dash-bootstrap-components = "0.10.6rc1"
 gunicorn = "^20.0.4"
 python-dotenv = "^0.14.0"
+flask-talisman = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"
