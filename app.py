@@ -1,4 +1,3 @@
-import os
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -9,6 +8,7 @@ import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
 from dash.dependencies import Input, Output, State
+from dash.exceptions import PreventUpdate
 
 
 external_stylesheets = [dbc.themes.JOURNAL]
