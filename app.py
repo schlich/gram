@@ -8,7 +8,6 @@ import pandas as pd
 import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
-from flask_sslify import SSLify
 from dash.dependencies import Input, Output, State
 
 
@@ -16,8 +15,6 @@ external_stylesheets = [dbc.themes.JOURNAL]
 load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
-# if "DYNO" in os.environ:
-#     sslify = SSLify(app)
 server = app.server
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
