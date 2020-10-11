@@ -707,7 +707,7 @@ description = "Google Spreadsheets Python API v4"
 name = "pygsheets"
 optional = false
 python-versions = "*"
-version = "2.0.3.1"
+version = "2.0.0"
 
 [package.dependencies]
 enum34 = "*"
@@ -1038,7 +1038,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "fcbcb871a5d5c110c6fdabf8935b38b347976f557fa9cd910404ff507556af26"
+content-hash = "bd233fa2a2fa9f03caaf93b9b5348c5b575dc6c1a103e62203bc3442f7e9039f"
 python-versions = "3.8.3"
 
 [metadata.files]
@@ -1492,9 +1492,9 @@ pycparser = [
     {file = "pycparser-2.20.tar.gz", hash = "sha256:2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"},
 ]
 pygsheets = [
-    {file = "pygsheets-2.0.3.1-py2-none-any.whl", hash = "sha256:b84c73c897c8c6c60d15f8eaf7f599bbb3807e065cebbfe7411cd3207950ff87"},
-    {file = "pygsheets-2.0.3.1-py3-none-any.whl", hash = "sha256:3ac1e406891412fbd4faa0c5962725bc80499658f70c85c4d942541f08999549"},
-    {file = "pygsheets-2.0.3.1.tar.gz", hash = "sha256:7b67120a1dbaa767223109810214f5c5e6d4b9e0573bf4da81d238cbfa1157ed"},
+    {file = "pygsheets-2.0.0-py2-none-any.whl", hash = "sha256:2fa40f93699e78a78bcce3b09af804e0630224a317723f5bf5579f9c7e7b0870"},
+    {file = "pygsheets-2.0.0-py3-none-any.whl", hash = "sha256:d1093ce6ad12611fb0f7a2670c7755d2d3916db500c816dbd04b17184a43b3c5"},
+    {file = "pygsheets-2.0.0.tar.gz", hash = "sha256:54374db8d7aefc7a6237b1cbe85a1fa9c74cc2cb5ca01471b2e7b1ee7341cd5c"},
 ]
 pylint = [
     {file = "pylint-2.6.0-py3-none-any.whl", hash = "sha256:bfe68f020f8a0fece830a22dd4d5dddb4ecc6137db04face4c3420a46a52239f"},
