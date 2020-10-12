@@ -17,7 +17,7 @@ load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
 server = app.server
-Talisman(server)
+# Talisman(server)
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
 
