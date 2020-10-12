@@ -7,6 +7,7 @@ import pandas as pd
 import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
+from flask_talisman import Talisman
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -16,6 +17,7 @@ load_dotenv()
 
 app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
 server = app.server
+Talisman(server)
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
 
@@ -57,6 +59,7 @@ display_data = data[
         "Age",
         "Race of Complainant",
         "Complainant Gender",
+        "FY 2021 Salary",
         "Rank",
         "Assignment",
         "District",
@@ -317,13 +320,15 @@ def update_data(n_clicks, officer):
         dsn = firstrow["DSN"]
         rank = firstrow["Rank_2020"]
         assignment = firstrow["2020 Assignment"]
+        salary = firstrow["FY 2021 Salary"]
         if not rank:
             officer_info = "No longer employed with the SLMPD"
         else:
             officer_info = [
-                html.H5(f"DSN: {dsn}"),
-                html.P(f"Rank: {rank}"),
-                html.P(f"Assignment: {assignment}"),
+                html.H5([html.B("DSN: "), str(dsn)]),
+                html.P([html.B("Rank: "), str(rank)]),
+                html.P([html.B("Assignment: "), str(assignment)]),
+                html.P([html.B("2021 Salary: "), str(salary)]),
             ]
         return (
             complaints,

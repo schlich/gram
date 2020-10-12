@@ -279,7 +279,7 @@ flask = "*"
 name = "flask-talisman"
 version = "0.7.0"
 description = "HTTP security headers for Flask."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -982,7 +982,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.3"
-content-hash = "ac90c61f790558415a0ce73fd8325ebb3e10f3877c2d62ee39e2bb6d712baa60"
+content-hash = "082dfea736dcadc4fc523b302ea05ceb271aa5cd5d0984bec8c0886f4d852f3f"
 
 [metadata.files]
 appdirs = [
