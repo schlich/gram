@@ -448,9 +448,13 @@ if __name__ == "__main__":
     Talisman(
         app.server,
         content_security_policy={
-            "default-src": "*",
+            "default-src": ["'self'", "google.com"],
             "script-src": ["'self'", "'unsafe-eval'"] + app.csp_hashes(),
-            "style-src": ["*", "unsafe-inline"],  # ["'self'", "'unsafe-inline'"],
+            "style-src": [
+                "'self'",
+                "bootstrapcdn.com",
+                "unsafe-inline",
+            ],  # ["'self'", "'unsafe-inline'"],
             "img-src": ["'self'", "jointhegram.org"],
         },
     )
