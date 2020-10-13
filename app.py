@@ -8,6 +8,7 @@ import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
 from flask_talisman import Talisman
+from flask_sslify import SSLify
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 
@@ -17,6 +18,7 @@ load_dotenv()
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
+SSLify(server)
 
 # csp = {
 #     'default-src': '\'self\'',
@@ -445,19 +447,19 @@ def close_disclaimer(n_clicks):
 
 
 if __name__ == "__main__":
-    Talisman(
-        app.server,
-        content_security_policy=None,
-        force_https_permanent=True,
-        # {
-        #     "default-src": ["'self'", "google.com"],
-        #     "script-src": ["'self'", "'unsafe-eval'"] + app.csp_hashes(),
-        #     "style-src": [
-        #         "'self'",
-        #         "bootstrapcdn.com",
-        #         "unsafe-inline",
-        #     ],  # ["'self'", "'unsafe-inline'"],
-        #     "img-src": ["'self'", "jointhegram.org"],
-        # },
-    )
+    # Talisman(
+    #     app.server,
+    #     content_security_policy=None,
+    #     force_https_permanent=True,
+    # {
+    #     "default-src": ["'self'", "google.com"],
+    #     "script-src": ["'self'", "'unsafe-eval'"] + app.csp_hashes(),
+    #     "style-src": [
+    #         "'self'",
+    #         "bootstrapcdn.com",
+    #         "unsafe-inline",
+    #     ],  # ["'self'", "'unsafe-inline'"],
+    #     "img-src": ["'self'", "jointhegram.org"],
+    # },
+    # )
     app.run_server()
