@@ -448,6 +448,7 @@ if __name__ == "__main__":
     Talisman(
         app.server,
         content_security_policy=None,
+        force_https_permanent=True,
         # {
         #     "default-src": ["'self'", "google.com"],
         #     "script-src": ["'self'", "'unsafe-eval'"] + app.csp_hashes(),
