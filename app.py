@@ -15,9 +15,15 @@ from dash.exceptions import PreventUpdate
 external_stylesheets = [dbc.themes.JOURNAL]
 load_dotenv()
 
-app = dash.Dash("PoliceData", external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
-# Talisman(server)
+
+# csp = {
+#     'default-src': '\'self\'',
+#     'script-src': '\'self\'',
+#     'style-src': '\'self\''
+#     }
+# Talisman(server, content_security_policy=csp)
 
 client = pyg.authorize(service_account_env_var="GOOGLE_SHEETS_CREDS_JSON")
 
@@ -439,4 +445,13 @@ def close_disclaimer(n_clicks):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    Talisman(
+        app.server,
+        content_security_policy={
+            "default-src": "*",
+            "script-src": ["'self'", "'unsafe-eval'"] + app.csp_hashes(),
+            "style-src": ["*", "unsafe-inline"],  # ["'self'", "'unsafe-inline'"],
+            "img-src": ["'self'", "jointhegram.org"],
+        },
+    )
+    app.run_server()
