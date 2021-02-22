@@ -7,7 +7,6 @@ import pandas as pd
 import pygsheets as pyg
 import plotly.graph_objs as go
 from dotenv import load_dotenv
-from flask_talisman import Talisman
 from flask_sslify import SSLify
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
